@@ -1,0 +1,5 @@
+fixer_api:
+  base_url: http://data.fixer.io
+  access_key: 8fbb819a5e2f5306b770972a832430ef
+exchange_rates_api:
+  base_url: https://api.exchangeratesapi.io
