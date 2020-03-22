@@ -19,8 +19,8 @@ module ValidationHelper
     # @param [Hash] input
     # @raise [ValidationError] if validation failed
     # @return nil
-    def call(input)
-      res = super input
+    def call!(input)
+      res = call input
       if res.failure?
         info = res.errors.to_h
         info.each {|k, arr| info[k] = arr.map{ |err| "#{err}, provided: #{input[k]}"}}

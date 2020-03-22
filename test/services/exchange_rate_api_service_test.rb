@@ -1,10 +1,10 @@
 require 'test_helper'
-require 'exchange_rates_api'
+require 'exchange_rates_api_service'
 require 'validation_helper'
 
-class ExchangeRateApiTest < ActiveSupport::TestCase
+class ExchangeRateApiServiceTest < ActiveSupport::TestCase
   def setup
-    @api = ExchangeRatesApi.new
+    @api = ExchangeRatesApiService.new
   end
 
   test "raise error on base length != 3" do
@@ -23,7 +23,7 @@ class ExchangeRateApiTest < ActiveSupport::TestCase
 
   private def check_for_error(value)
     assert_raises ValidationHelper::ValidationError do
-      @api.get_currency value
+      @api.get_currency! value
     end
   end
 end
