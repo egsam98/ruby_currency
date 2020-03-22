@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  resources :currency, only: [:show]
+  resources :currencies, only: [:show]
+  match "*path" => "application#routing_error", via: :all
 end
