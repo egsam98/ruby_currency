@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  title: Документация API курса валют
+  description: Сервис выдачи информации о текущем курсе валют
+  version: 0.0.1
+servers:
+  - url: https://ruby-currency.herokuapp.com
+    description: Heroku Application Server
+paths:
+  /api/currencies/{code}:
+    get:
+      summary: /api/currencies/{code}
+      description: Запрос текущих данных курса валют
+      parameters:
+        - in: path
+          name: code
+          required: true
+          description: Код валюты
+          schema:
+            type: string
+            pattern: "^[A-Z]{3}$"
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                properties:
+                  warning:
+                    type: string
+                    description: Возникает в связи с использованием одного из бесплатных сервисов выдачи курса валют  (используется как резерв), где будет использован по умолч. EUR
+                    example: "Unfortunately, we cannot provide rates for custom currency due to the service's free plan"
+                  base:
+                    type: string
+                    description: Введенный код валюты
+                    example: USD
+                  date:
+                    type: string
+                    pattern: yyyy-MM-dd
+                    description: Дата последнего обновления курса валют
+                    example: "2020-03-21"
+                  rates:
+                    type: object
+                    description: Курсы валют относительно указанной в base
+                    additionalProperties:
+                      type: number
+                    example:
+                      USD: 1.0
+                      RUB: 65.564
+                      EUR: 0.895
+                required:
+                  - base
+                  - date
+                  - rates
+        400:
+          description: 'Ошибка ввода кода валюты (code)'
+          content:
+            application/json:
+              example: {"error": "Base: must be a currency code, provided: US"}
+              schema:
+                $ref: "#/components/schemas/error"
+        503:
+          description: 'Ошибка используемых сервисов выдачи курса валют'
+          content:
+            application/json:
+              example: {"error":"Server temporarily is unavailable: Failed to open TCP connection to data.fixer.iod:80 (getaddrinfo: Name or service not known)"}
+              schema:
+                $ref: "#/components/schemas/error"
+
+
+components:
+  schemas:
+    error:
+      properties:
+        error:
+          type: string
+          description: Сообщение об ошибке
+      required:
+        - error
