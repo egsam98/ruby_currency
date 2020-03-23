@@ -13,4 +13,8 @@ class JsonHelperTest < ActiveSupport::TestCase
   test "invalid" do; assert_not valid? @invalid_json end
   test "valid and non empty" do; assert valid_and_not_empty? @valid_json end
   test "valid and empty" do; assert_not valid_and_not_empty? @empty_json end
+  test "handle nil" do
+    assert_not valid? nil
+    assert_not valid_and_not_empty? nil
+  end
 end

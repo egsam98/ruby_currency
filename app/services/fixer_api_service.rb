@@ -9,6 +9,6 @@ class FixerApiService
                    .get('/api/latest').body
     body = JSON.parse raw_body
     body[:warning] = "Unfortunately, we cannot provide rates for custom currency due to the service's free plan"
-    body
+    body.except('success', 'timestamp')
   end
 end
