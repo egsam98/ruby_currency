@@ -1,9 +1,9 @@
 require 'json'
-require_relative '../helpers/validation_helper'
+require 'validation_helper'
 
 
 class ExchangeRatesApiService
-  BASE_URL = "https://api.exchangeratesapi.io"
+  BASE_URL = Settings[:exchange_rates_api][:base_url]
 
   class Contract < ValidationHelper::Contract
     schema { required(:base).value(:string) }
