@@ -7,8 +7,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
   rescue_from ValidationHelper::ValidationError, with: :handle_validation_err
 
-  def api_docs; render 'api_docs' end
-
   # @param [ValidationHelper::ValidationError] e
   def handle_validation_err(e)
     err_msg = e.errors.map { |k, messages| "#{k.capitalize}: #{messages.map { |x| uncapitalize x }.join(', ')}"}
