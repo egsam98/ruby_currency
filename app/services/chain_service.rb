@@ -48,3 +48,19 @@ class ChainService
     end
   end
 end
+
+
+class CurrenciesChainService < ChainService
+
+  # Цепочка сервисов выдачи валюты формируется на основе имен классов в .env
+  # @param [String]base
+  # @return [CurrenciesChainService]
+  def self.from_env(base)
+    builder = build.error(Faraday::ConnectionFailed)
+    ENV["CURRENCY_SERVICES_CHAIN"].split(/\s*,\s*/).each do |c|
+      method = c.constantize.new.method(:get_currency!)
+      builder = builder.add_handler { method.parameters.empty?? method.call: method.call(base) }
+    end
+    builder.create
+  end
+end
