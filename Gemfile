@@ -54,3 +54,5 @@ gem "faraday", "~> 1.0"
 gem 'dry-validation'
 
 gem 'config'
+
+gem 'rails-ioc'

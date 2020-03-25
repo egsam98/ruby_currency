@@ -8,7 +8,7 @@ class ChainService
     # Добавить обработчик цепочки
     # @param [Proc]block
     # @return [Builder]
-    def add_handler(&block)
+    def add_handler(block)
       @instance.handlers << block
       self
     end
@@ -38,10 +38,10 @@ class ChainService
 
   # Вызов цепочки, начиная с первого обработчика
   # @raise [@error_class]
-  def call!
+  def call! (*args)
     @handlers.each_with_index do |x, i|
       begin
-        return x.call
+        return (x.parameters.size == args.size)? x.call(*args): x.call
       rescue @error_class => e
         raise e if i == @handlers.size - 1
       end
